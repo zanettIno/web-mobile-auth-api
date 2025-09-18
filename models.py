@@ -28,7 +28,7 @@ def iniciar_bd():
         CREATE TABLE IF NOT EXISTS noticias (
             id_noticias      INTEGER PRIMARY KEY AUTOINCREMENT,
             titulo_noticias    TEXT NOT NULL,
-            conteudo_noticias   TEXT NOT NULL
+            conteudo_noticias   TEXT NOT NULL)
         ''')
 
     c.execute('''
