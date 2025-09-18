@@ -47,9 +47,16 @@ async def cadastro(dados: Dados):
         print(f"Error during user registration: {e}")
         raise HTTPException(status_code=500, detail='Internal Server Error')
 
-# SELECT DE TUDO
-@app.get("/select")
+# SELECT DE TODOS OS USUARIOS
+@app.get("/select/")
 async def selectDadosUser():
     conn = conectar_bd()
     dados = conn.execute('SELECT * FROM usuario').fetchall()
+    return [dict(item) for item in dados]
+
+# SELECT DE TODAS AS NOTICIAS
+@app.get("/select-noticias/")
+async def selectDadosUser():
+    conn = conectar_bd()
+    dados = conn.execute('SELECT * FROM noticias').fetchall()
     return [dict(item) for item in dados]
