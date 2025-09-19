@@ -59,7 +59,7 @@ async def cadastroNoti(dados: DadosNoti):
     conn = conectar_bd()
     conn.execute('INSERT INTO noticias (titulo_noticias, conteudo_noticias) VALUES (?, ?)', (dados.titulo_noticias, dados.conteudo_noticias))
     conn.commit()
-        return {'message': 'Notícia postada com sucesso!'}
+    return {'message': 'Notícia postada com sucesso!'}
 
 # EDIÇÃO DAS NOTÍCIAS
 @app.post("/update-noticias/")
@@ -67,7 +67,7 @@ async def edicaoNoti(dados: DadosNoti):
     conn = conectar_bd()
     conn.execute('UPDATE noticias SET titulo_noticias = ?, conteudo_noticias = ? WHERE id_noticias = ?', (dados.titulo_noticias, dados.conteudo_noticias, dados.id_noticias))
     conn.commit()
-        return {'message': 'Notícia atualizada com sucesso!'}
+    return {'message': 'Notícia atualizada com sucesso!'}
 
 # SELECT DE TODAS AS NOTICIAS
 @app.get("/select-noticias/")
