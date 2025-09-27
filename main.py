@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Request, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import sqlite3
 from models import iniciar_bd 
@@ -16,6 +17,13 @@ class DadosNoti(BaseModel):
     conteudo_noticias: str
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 iniciar_bd() 
 
 def conectar_bd():
@@ -57,9 +65,15 @@ async def cadastroUser(dados: DadosUser):
 @app.post("/cadastro-noticias/")
 async def cadastroNoti(dados: DadosNoti):
     conn = conectar_bd()
+    cursor = conn.cursor()
     conn.execute('INSERT INTO noticias (titulo_noticias, conteudo_noticias) VALUES (?, ?)', (dados.titulo_noticias, dados.conteudo_noticias))
+    cursor.execute('SELECT last_insert_rowid()')
+    novo_id = cursor.fetchone()[0]
     conn.commit()
-    return {'message': 'Notícia postada com sucesso!'}
+    return {'message': 'Notícia postada com sucesso!',
+            "id_noticias": novo_id,
+            "titulo_noticias": dados.titulo_noticias,
+            "conteudo_noticias": dados.conteudo_noticias}
 
 # EDIÇÃO DAS NOTÍCIAS
 @app.post("/update-noticias/")
