@@ -89,3 +89,10 @@ async def selectDadosNoti():
     conn = conectar_bd()
     dados = conn.execute('SELECT * FROM noticias').fetchall()
     return [dict(item) for item in dados]
+
+# SELECT DE TODOS OS USUÁRIOS
+@app.get("/select-usuario/")
+async def selectDadosNoti():
+    conn = conectar_bd()
+    dados = conn.execute('SELECT * FROM usuario').fetchall()
+    return [dict(item) for item in dados]
